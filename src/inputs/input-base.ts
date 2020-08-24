@@ -1,6 +1,6 @@
 import { InlineBaseConfig, InlineConfig } from "../types/inline-configs";
 import {
-    Renderer, Component, ViewChild, ElementRef, OnInit,
+    Renderer2, Component, ViewChild, ElementRef, OnInit,
     Injector, OnChanges, DoCheck, AfterContentInit,
     AfterViewInit, AfterViewChecked, AfterContentChecked,
     OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef,
@@ -21,7 +21,7 @@ export class InputBase implements OnInit, OnChanges, DoCheck,
     OnUpdateConfig {
 
     constructor(protected injector: Injector) {
-        this.renderer = injector.get(Renderer);
+        this.renderer = injector.get(Renderer2);
         this.service = injector.get(InlineEditorService);
         this.cd = injector.get(ChangeDetectorRef);
 
@@ -73,7 +73,7 @@ export class InputBase implements OnInit, OnChanges, DoCheck,
     public isNumeric = false;
     public isRegexTestable = false;
     public isLengthTestable = false;
-    protected renderer: Renderer;
+    protected renderer: Renderer2;
     protected cd: ChangeDetectorRef;
     protected subscriptions: { [key: string]: Subscription } = {};
 
@@ -190,11 +190,14 @@ export class InputBase implements OnInit, OnChanges, DoCheck,
     }
 
     public focus() {
-        setTimeout(() => this.renderer.invokeElementMethod(this.inputElement, "focus", []));
+        // setTimeout(() => this.renderer.invokeElementMethod(this.inputElement, "focus", []));
+        setTimeout(() => this.renderer.selectRootElement(this.inputElement, true).focus());
     }
 
     public select() {
-        setTimeout(() => this.renderer.invokeElementMethod(this.inputElement, "select", []));
+        // setTimeout(() => this.renderer.invokeElementMethod(this.inputElement, "select", []));
+        setTimeout(() => this.renderer.selectRootElement(this.inputElement, true).select());
+
     }
 
     protected updateState(newState: InlineEditorState) {
